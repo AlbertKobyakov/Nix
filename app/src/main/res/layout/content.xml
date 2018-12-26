@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/btns_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btn_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ripple_button"
+            android:contentDescription="@string/img_remove"
+            android:padding="10dp"
+            android:src="@drawable/delete" />
+
+        <ImageButton
+            android:id="@+id/btn_add_to_purchased"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ripple_button"
+            android:contentDescription="@string/img_transfer"
+            android:padding="10dp"
+            android:src="@drawable/arrow_all" />
+
+        <ImageButton
+            android:id="@+id/btn_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ripple_button"
+            android:contentDescription="@string/img_select_all"
+            android:padding="10dp"
+            android:src="@drawable/check_all" />
+
+        <ImageButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/ripple_button"
+            android:contentDescription="@string/img_cancel"
+            android:padding="10dp"
+            android:src="@drawable/close" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp" />
+
+    <include layout="@layout/empty_layout_for_recycler_view" />
+</LinearLayout>

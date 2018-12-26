@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">NixTestTask</string>
+    <string name="search">Search</string>
+    <string name="user_name">User</string>
+    <string name="user_email">example@gmail.com</string>
+    <string name="add_new_position">Add new position:</string>
+    <string name="title">Title</string>
+    <string name="add_image">Set image:</string>
+    <string name="from_camera">From Camera</string>
+    <string name="from_gallery">From Gallery</string>
+    <string name="to_add">To add</string>
+    <string name="position_photo">position photo</string>
+    <string name="need_to_buy">Need to buy</string>
+    <string name="purchased">Purchased</string>
+    <string name="date">Date</string>
+    <string name="deselected">Deselected: %1$d</string>
+    <string name="removed">Removed: %1$d</string>
+    <string name="moved_to_purchase">Moved to purchased: %1$d</string>
+    <string name="selected">Selected: %1$d</string>
+    <string name="added_new_position">Added new position</string>
+    <string name="permission_denied">Oops you denied the permission WRITE EXTERNAL STORAGE</string>
+    <string name="undefined">unknown</string>
+    <string name="img_remove">img remove</string>
+    <string name="img_transfer">img_transfer</string>
+    <string name="img_select_all">img select all</string>
+    <string name="img_cancel">img cancel</string>
+    <string name="user_photo">user photo</string>
+    <string name="img_product">img product</string>
+    <string name="list_is_empty">List is empty</string>
+    <string name="img_sad">img sad</string>
+    <string name="list_purchased_empty">List of purchased products is empty</string>
+    <string name="shopping_list_empty">Shopping list is empty</string>
+</resources>
