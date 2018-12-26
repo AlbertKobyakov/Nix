@@ -30,9 +30,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements HomeNavigationFragment.BottomNavigationFragmentListener,
-        ProductFragment.FabListener,
-        ProductFragment.WorkerWithDB,
+public class MainActivity extends AppCompatActivity implements HomeNavigationFragment.MenuItemClickListener,
+        ProductFragment.FabStateListener,
+        ProductFragment.DBWorkerListener,
         AddNewProductFragment.InsertListener,
         ProductFragment.RemoveFileListener {
 
@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity implements HomeNavigationFra
         super.onAttachFragment(fragment);
         if (fragment instanceof ProductFragment) {
             ProductFragment productFragment = (ProductFragment) fragment;
-            productFragment.setFabListener(this);
-            productFragment.setWorkerWithDB(this);
+            productFragment.setFabStateListener(this);
+            productFragment.setDBWorkerListener(this);
             productFragment.setRemoveFileListener(this);
         }
     }

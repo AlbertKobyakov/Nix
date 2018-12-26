@@ -48,8 +48,8 @@ public class ProductFragment extends Fragment {
     Unbinder unbinder;
     ProductRepository repository;
 
-    FabListener fabListener;
-    WorkerWithDB workerWithDB;
+    FabStateListener fabStateListener;
+    DBWorkerListener DBWorkerListener;
     RemoveFileListener removeFileListener;
 
     @BindView(R.id.recyclerView)
@@ -144,7 +144,7 @@ public class ProductFragment extends Fragment {
                 fileNames.add(product.getImagePath());
             }
         }
-        workerWithDB.remove(productListSelected, getString(R.string.removed, productListSelected.size()));
+        DBWorkerListener.remove(productListSelected, getString(R.string.removed, productListSelected.size()));
         removeFileListener.removeFile(fileNames);
     }
 
@@ -158,7 +158,7 @@ public class ProductFragment extends Fragment {
                 productListSelected.add(product);
             }
         }
-        workerWithDB.addToPurchased(productListSelected, getString(R.string.moved_to_purchase, productListSelected.size()));
+        DBWorkerListener.addToPurchased(productListSelected, getString(R.string.moved_to_purchase, productListSelected.size()));
     }
 
     @OnClick(R.id.btn_select_all)
@@ -170,7 +170,7 @@ public class ProductFragment extends Fragment {
                 productListSelected.add(product);
             }
         }
-        workerWithDB.selectAll(productListSelected, getString(R.string.selected, productListSelected.size()));
+        DBWorkerListener.selectAll(productListSelected, getString(R.string.selected, productListSelected.size()));
     }
 
     @OnClick(R.id.btn_cancel)
@@ -182,7 +182,7 @@ public class ProductFragment extends Fragment {
                 productListSelected.add(product);
             }
         }
-        workerWithDB.deselectAll(productListSelected, getString(R.string.deselected, productListSelected.size()));
+        DBWorkerListener.deselectAll(productListSelected, getString(R.string.deselected, productListSelected.size()));
     }
 
     private void initRecyclerViewWithAdapter() {
@@ -194,7 +194,7 @@ public class ProductFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(getContext(), (view, position) -> {
             Product product = mAdapter.getProducts().get(position);
             product.setSelected(!product.isSelected());
-            workerWithDB.updateProduct(product);
+            DBWorkerListener.updateProduct(product);
         }));
 
 
@@ -230,21 +230,21 @@ public class ProductFragment extends Fragment {
 
     private void showHideFabBasedOnRowSize(String text) {
         if (text.trim().length() > 0) {
-            fabListener.onFabShowHide(false);
+            fabStateListener.onFabShowHide(false);
         } else {
-            fabListener.onFabShowHide(true);
+            fabStateListener.onFabShowHide(true);
         }
     }
 
-    public interface FabListener {
+    public interface FabStateListener {
         void onFabShowHide(boolean state);
     }
 
-    public void setFabListener(Activity activity) {
-        fabListener = (FabListener) activity;
+    public void setFabStateListener(Activity activity) {
+        fabStateListener = (FabStateListener) activity;
     }
 
-    public interface WorkerWithDB {
+    public interface DBWorkerListener {
         void remove(List<Product> products, String message);
 
         void addToPurchased(List<Product> products, String message);
@@ -256,8 +256,8 @@ public class ProductFragment extends Fragment {
         void updateProduct(Product product);
     }
 
-    public void setWorkerWithDB(Activity activity) {
-        workerWithDB = (WorkerWithDB) activity;
+    public void setDBWorkerListener(Activity activity) {
+        DBWorkerListener = (DBWorkerListener) activity;
     }
 
     public interface RemoveFileListener {

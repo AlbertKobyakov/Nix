@@ -21,7 +21,7 @@ public class HomeNavigationFragment extends BottomSheetDialogFragment {
 
     private final String TAG = getClass().getSimpleName();
 
-    private BottomNavigationFragmentListener mBottomNavigationFragmentListener;
+    private MenuItemClickListener mMenuItemClickListener;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
 
@@ -36,7 +36,7 @@ public class HomeNavigationFragment extends BottomSheetDialogFragment {
         return view;
     }
 
-    public interface BottomNavigationFragmentListener {
+    public interface MenuItemClickListener {
         void onMenuItemClick(int fragmentId);
     }
 
@@ -45,7 +45,7 @@ public class HomeNavigationFragment extends BottomSheetDialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
-            mBottomNavigationFragmentListener.onMenuItemClick(menuItem.getItemId());
+            mMenuItemClickListener.onMenuItemClick(menuItem.getItemId());
             dismiss();
             return false;
         });
@@ -55,7 +55,7 @@ public class HomeNavigationFragment extends BottomSheetDialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        mBottomNavigationFragmentListener = (BottomNavigationFragmentListener) context;
+        mMenuItemClickListener = (MenuItemClickListener) context;
     }
 
     @Override
