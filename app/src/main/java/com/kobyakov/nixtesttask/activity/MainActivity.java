@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements HomeNavigationFra
         if (savedInstanceState == null) {
             onMenuItemClick(R.id.buy_products);
         }
-
         presenter.attachView(this);
     }
 
