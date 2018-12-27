@@ -84,6 +84,8 @@ public class ProductFragment extends Fragment {
             isBought = getArguments().getBoolean(IS_BOUGHT);
             TAG = getArguments().getString(KEY_TAG);
         }
+
+        repository = new ProductRepository(isBought);
     }
 
     @Nullable
@@ -95,28 +97,31 @@ public class ProductFragment extends Fragment {
 
         init();
 
-        repository = new ProductRepository(isBought);
         repository.getProductsLive().observe(this, products -> {
             if (products != null) {
                 mAdapter.registerAdapterDataObserver(new RecyclerViewEmptyObserver(recyclerView, emptyLayout, recyclerView));
                 mAdapter.setData(products);
 
-                if (products.size() == 0 && btnsBlock.getVisibility() == VISIBLE) {
-                    btnsBlock.setVisibility(View.GONE);
-                }
-
-                for (Product product : products) {
-                    if (product.isSelected()) {
-                        btnsBlock.setVisibility(View.VISIBLE);
-                        return;
-                    } else {
-                        btnsBlock.setVisibility(View.GONE);
-                    }
-                }
+                changeVisibilityBtnsBlock(products);
             }
         });
 
         return view;
+    }
+
+    private void changeVisibilityBtnsBlock(List<Product> products) {
+        if (products.size() == 0 && btnsBlock.getVisibility() == VISIBLE) {
+            btnsBlock.setVisibility(View.GONE);
+        }
+
+        for (Product product : products) {
+            if (product.isSelected()) {
+                btnsBlock.setVisibility(View.VISIBLE);
+                return;
+            } else {
+                btnsBlock.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void init() {
