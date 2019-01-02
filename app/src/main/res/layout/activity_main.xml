@@ -36,6 +36,6 @@
         style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/cart_plus"
+        app:srcCompat="@drawable/cart_plus"
         app:layout_anchor="@id/bottom_app_bar" />
 </android.support.design.widget.CoordinatorLayout>

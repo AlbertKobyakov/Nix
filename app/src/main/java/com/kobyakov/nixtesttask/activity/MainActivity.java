@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements HomeNavigationFra
     @Override
     public void removeFile(List<String> fileNames) {
         for (String fileName : fileNames) {
-            if (fileName != null) {
+            if (fileName != null && fileName.trim().length() > 0 && fileName.contains("IMG")) {
                 int startNameFile = fileName.indexOf("IMG");
                 String name = fileName.substring(startNameFile);
                 presenter.removeFile(name);

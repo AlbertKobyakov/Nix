@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,40 +18,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/ripple_button"
             android:contentDescription="@string/img_remove"
             android:padding="10dp"
-            android:src="@drawable/delete" />
+            app:srcCompat="@drawable/delete" />
 
         <ImageButton
             android:id="@+id/btn_add_to_purchased"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/ripple_button"
             android:contentDescription="@string/img_transfer"
             android:padding="10dp"
-            android:src="@drawable/arrow_all" />
+            app:srcCompat="@drawable/arrow_all" />
 
         <ImageButton
             android:id="@+id/btn_select_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/ripple_button"
             android:contentDescription="@string/img_select_all"
             android:padding="10dp"
-            android:src="@drawable/check_all" />
+            app:srcCompat="@drawable/check_all" />
 
         <ImageButton
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/ripple_button"
             android:contentDescription="@string/img_cancel"
             android:padding="10dp"
-            android:src="@drawable/close" />
+            app:srcCompat="@drawable/close" />
     </LinearLayout>
 
     <View
@@ -63,6 +68,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="5dp" />
-
     <include layout="@layout/empty_layout_for_recycler_view" />
 </LinearLayout>
