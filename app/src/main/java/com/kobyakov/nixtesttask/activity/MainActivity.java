@@ -33,8 +33,7 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity implements HomeNavigationFragment.MenuItemClickListener,
         ProductFragment.FabStateListener,
         ProductFragment.DBWorkerListener,
-        AddNewProductFragment.InsertListener,
-        ProductFragment.RemoveFileListener {
+        AddNewProductFragment.InsertListener {
 
     private final String TAG = getClass().getSimpleName();
     private final static String TAG_BUY_FRAGMENT = "BuyProducts";
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements HomeNavigationFra
             ProductFragment productFragment = (ProductFragment) fragment;
             productFragment.setFabStateListener(this);
             productFragment.setDBWorkerListener(this);
-            productFragment.setRemoveFileListener(this);
         }
     }
 
@@ -201,16 +199,5 @@ public class MainActivity extends AppCompatActivity implements HomeNavigationFra
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();
-    }
-
-    @Override
-    public void removeFile(List<String> fileNames) {
-        for (String fileName : fileNames) {
-            if (fileName != null && fileName.trim().length() > 0 && fileName.contains("IMG")) {
-                int startNameFile = fileName.indexOf("IMG");
-                String name = fileName.substring(startNameFile);
-                presenter.removeFile(name);
-            }
-        }
     }
 }

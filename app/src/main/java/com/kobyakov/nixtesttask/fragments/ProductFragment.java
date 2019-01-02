@@ -50,7 +50,6 @@ public class ProductFragment extends Fragment {
 
     FabStateListener fabStateListener;
     DBWorkerListener DBWorkerListener;
-    RemoveFileListener removeFileListener;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -142,15 +141,12 @@ public class ProductFragment extends Fragment {
     @OnClick(R.id.btn_remove)
     public void remove() {
         List<Product> productListSelected = new ArrayList<>();
-        List<String> fileNames = new ArrayList<>();
         for (Product product : mAdapter.getProducts()) {
             if (product.isSelected()) {
                 productListSelected.add(product);
-                fileNames.add(product.getImagePath());
             }
         }
         DBWorkerListener.remove(productListSelected, getString(R.string.removed, productListSelected.size()));
-        removeFileListener.removeFile(fileNames);
     }
 
     @OnClick(R.id.btn_add_to_purchased)
@@ -263,14 +259,6 @@ public class ProductFragment extends Fragment {
 
     public void setDBWorkerListener(Activity activity) {
         DBWorkerListener = (DBWorkerListener) activity;
-    }
-
-    public interface RemoveFileListener {
-        void removeFile(List<String> fileNames);
-    }
-
-    public void setRemoveFileListener(Activity activity) {
-        removeFileListener = (RemoveFileListener) activity;
     }
 
     @Override

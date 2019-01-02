@@ -5,16 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +26,7 @@ import com.bumptech.glide.RequestManager;
 import com.kobyakov.nixtesttask.R;
 import com.kobyakov.nixtesttask.model.Product;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,7 +57,6 @@ public class AddNewProductFragment extends BottomSheetDialogFragment {
     private static final int REQUEST_IMAGE_CAPTURE = 100;
     private static final int REQUEST_IMAGE_FROM_GALLERY = 101;
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 120;
-    private static final String AUTHORITY = "com.kobyakov.nixtesttask.provider";
     private static final String PATH = "path";
     private RequestManager glide;
 
@@ -69,12 +66,36 @@ public class AddNewProductFragment extends BottomSheetDialogFragment {
             Uri selectedImage = data.getData();
             String imgPath = replaceURIToNeedPath(selectedImage);
             if (imgPath.contains("external")) {
-                path = getRealPathFromUri(Objects.requireNonNull(getContext()), selectedImage);
+                path = getRealPathFromURI(selectedImage);
             } else {
                 path = imgPath;
             }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bitmap photo1 = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+            Uri tempUri = getImageUri(getContext(), photo1);
+            path = getRealPathFromURI(tempUri);
         }
+
         glide.load(path).error(glide.load(R.drawable.help)).into(imageView);
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = Objects.requireNonNull(getActivity()).getContentResolver().query(uri, null, null, null, null);
+        String realPathFromURI = "";
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            realPathFromURI = cursor.getString(idx);
+            cursor.close();
+        }
+        return realPathFromURI;
     }
 
     @Override
@@ -107,15 +128,6 @@ public class AddNewProductFragment extends BottomSheetDialogFragment {
 
         unbinder = ButterKnife.bind(this, view);
         return view;
-    }
-
-    public static String getRealPathFromUri(Context context, Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        try (Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null)) {
-            int column_index = Objects.requireNonNull(cursor).getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
     }
 
     private String replaceURIToNeedPath(Uri uri) {
@@ -175,35 +187,9 @@ public class AddNewProductFragment extends BottomSheetDialogFragment {
         openCameraIntent();
     }
 
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir = Objects.requireNonNull(getContext()).getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
-        return File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-    }
-
     private void openCameraIntent() {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (pictureIntent.resolveActivity(Objects.requireNonNull(getContext()).getPackageManager()) != null) {
-            //Create a file to store the image
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-                path = photoFile.getAbsolutePath();
-            } catch (IOException ex) {
-                Log.d(TAG, ex.getLocalizedMessage());
-            }
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getContext(), AUTHORITY, photoFile);
-                pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(pictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
+        startActivityForResult(pictureIntent, REQUEST_IMAGE_CAPTURE);
     }
 
 
